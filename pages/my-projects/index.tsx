@@ -3,8 +3,8 @@ import NextLink from 'next/link';
 
 import { Button, ButtonGroup } from '@chakra-ui/button';
 import { useColorModeValue } from '@chakra-ui/color-mode';
-import { Box, Flex, Heading, Link, Spacer, Text, VStack } from '@chakra-ui/layout';
-import { Image, SimpleGrid } from '@chakra-ui/react';
+import { Flex, Heading, Link, Spacer, Text, VStack } from '@chakra-ui/layout';
+import { AspectRatio, Image, SimpleGrid, Skeleton } from '@chakra-ui/react';
 
 import Page from '../../components/Base/Page';
 import DefaultLayout from '../../layouts/DefaultLayout';
@@ -28,7 +28,12 @@ const ProjectCard = ({
       direction='column'
     >
       {imageSrc && 
-        <Image src={imageSrc} />
+        <AspectRatio maxW='full' ratio={2/1}>
+          <Image 
+            src={imageSrc} 
+            fallback={<Skeleton w='full' h='full' />}
+          />
+        </AspectRatio>
       }
       <Flex 
         p={4}
