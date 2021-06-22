@@ -101,7 +101,7 @@ const DefaultLayout = (props: PropsWithChildren<{}>) => {
                   <Link href='/' onClick={onClose}>
                     Home
                   </Link>
-                  <Tooltip hasArrow label='Not Implmented Yet' placement='right'>
+                  <Tooltip hasArrow label='Not Implemented Yet' placement='right'>
                     <Box display='inline-block' _focus={{}}>
                       <Link>
                         Blog
