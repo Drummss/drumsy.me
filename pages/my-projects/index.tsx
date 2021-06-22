@@ -1,22 +1,62 @@
-import React from "react";
+import React, { PropsWithChildren } from 'react';
+import NextLink from 'next/link';
 
-import { Button, ButtonGroup } from "@chakra-ui/button";
-import { useColorModeValue } from "@chakra-ui/color-mode";
-import { Box, Heading, Link, Spacer, Text, VStack } from "@chakra-ui/layout";
+import { Button, ButtonGroup } from '@chakra-ui/button';
+import { useColorModeValue } from '@chakra-ui/color-mode';
+import { Box, Flex, Heading, Link, Spacer, Text, VStack } from '@chakra-ui/layout';
+import { Image, SimpleGrid } from '@chakra-ui/react';
 
-import Page from "../../components/Base/Page";
-import DefaultLayout from "../../layouts/DefaultLayout";
+import Page from '../../components/Base/Page';
+import DefaultLayout from '../../layouts/DefaultLayout';
 
-const ProjectBox = ({ children }: { children: React.ReactNode }) => {
+type ProjectCardProps = {
+  children: React.ReactNode;
+  imageSrc?: string;
+  projectPage?: string;
+  githubLink?: string;
+}
+
+const ProjectCard = ({
+  children,
+  imageSrc,
+  projectPage,
+  githubLink,
+}: ProjectCardProps) => {
   return (
-    <Box
-      p={2}
-      borderWidth={1}
-      borderColor={useColorModeValue('blackAlpha.400', 'whiteAlpha.200')}
-      borderRadius={8}
+    <Flex
+      bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
+      direction='column'
     >
-      {children}
-    </Box>
+      {imageSrc && 
+        <Image src={imageSrc} />
+      }
+      <Flex 
+        p={4}
+        flexGrow={1}
+        direction='column'
+        justifyContent='space-between'
+      >
+        <Text>
+          {children}
+        </Text>
+        {(projectPage || githubLink) &&
+          <ButtonGroup mt={4}>
+            {projectPage &&
+              <NextLink href={projectPage} passHref>
+                <Link rel='noreferrer'>
+                  <Button colorScheme={useColorModeValue('blackAlpha.800', 'whiteAlpha.800')} variant='outline' size='sm'>Learn More</Button>
+                </Link>
+              </NextLink>
+            }
+            {githubLink &&
+              <Link href={githubLink} rel='noreferrer' target='_blank'>
+                <Button colorScheme={useColorModeValue('blackAlpha.800', 'whiteAlpha.800')} variant='outline' size='sm'>GitHub Page</Button>
+              </Link>
+            }
+          </ButtonGroup>
+        }
+      </Flex>
+    </Flex>
   );
 }
 
@@ -26,91 +66,72 @@ const CurrentProjects = () => {
       <Text>
         An incomplete list of things that I am working on or have worked on. To find more checkout my github page or contact me to ask me questions.
       </Text>
+
       <Spacer h={6} />
+
       <Heading mb={4} size='md' fontWeight='medium'>
         My Current Projects
       </Heading>
-      <VStack display='block' spacing={4}>
-        <Text>
-          These are the projects that I am currently working on.
-        </Text>
-        <ProjectBox>
-          <Heading mb={2} size='md'>
-            Pandabot
-          </Heading>
+
+      <Text>
+        These are the projects that I am currently working on.
+      </Text>
+
+      <Spacer h={4} />
+
+      <SimpleGrid
+        columns={[1,1,2,3]}
+        gap={4}
+      >
+        <ProjectCard
+          imageSrc='./projects/pandabot/banner_1024x512.png'
+          projectPage='/my-projects/pandabot'
+        >
+          A utility bot for Discord in the early stages of development. It is has a web dashboard and an API service for resource access.
+        </ProjectCard>
+        <ProjectCard
+          imageSrc='./projects/unkn-in/banner_1024x512.png'
+          projectPage='/my-projects/unkn-in'
+        >
           <Text>
-            Pandabot is my latest project. Mainly it is a Discord bot made in Typescript but it is actually a fullstack project. It is in very early stages of development but I have started the ground works for a web dashboard for the bot. Like this website the dashboard is made with React/NextJS. I have also created a standalone API service so the dashboard and bot access the same data. All of this is deployed on a VPS that I rent using Docker.
+            A private image hosting service made with Laravel. I have plans to remake this using ReactJS and microservice architechture.
           </Text>
-          <Spacer h={2}/>
-          <Text fontSize='sm'>
-            The repository for this is currently closed source but if you are an employer feel free to contact me to request more information about the source code.
-          </Text>
-          <Spacer h={4}/>
-          <ButtonGroup>
-            <Link href='http://pandabot.me:3000' target='_blank'>
-              <Button colorScheme='green' variant='outline' size='sm'>Dashboard Preview</Button>
-            </Link>
-          </ButtonGroup>
-        </ProjectBox>
-        <ProjectBox>
-          <Heading mb={2} size='md'>
-            Unkn.In
-          </Heading>
+        </ProjectCard>
+        <ProjectCard
+          imageSrc='./projects/drumsy-me/banner_1024x512.png'
+          githubLink='https://github.com/Drummss/drumsy.me'
+        >
           <Text>
-            Unkn.In is made in Laravel and it is my answer to having somewhere to store my files and share them easily. There are other services that do this but some of them would add considerable levels of compression or have some kind of limitation such only allowing images. When I originally made this image/file sharing was much harder but as time has gone on there are plenty of services that actually do this pretty well. Right now the website is closed-access and you can only use it if I generate a registration key for you. Only myself and a handful of friends use the service as of this time.
+            It's this website... yeah you can go look at the source. Enjoy!
           </Text>
-          <Spacer h={2}/>
-          <Text>
-            If I think there is any room for success or I decide I am bored enough then I will remake this project in React/NextJS. This would be to adopt a microservice approach which I think would fit this project much better than fundamentally monolithic foundations.
-          </Text>
-          <Spacer h={2}/>
-          <Text fontSize='sm'>
-            The repository for this is currently closed source but if you are an employer feel free to contact me to request more information about the source code.
-          </Text>
-          <Spacer h={4}/>
-          <ButtonGroup>
-            <Link href='https://unkn.in' target='_blank'>
-              <Button colorScheme='red' variant='outline' size='sm'>Unkn.In Website</Button>
-            </Link>
-          </ButtonGroup>
-        </ProjectBox>
-      </VStack>
+        </ProjectCard>
+      </SimpleGrid>
+
       <Spacer h={8}/>
+
       <Heading mb={4} size='md' fontWeight='medium'>
         Legacy Projects
       </Heading>
-      <VStack display='block' spacing={4}>
-        <Text>
-          These are some of my old projects. They are no longer being worked on in any capacity to the point that they may not work.
-        </Text>
-        <ProjectBox>
-          <Heading mb={2} size='md'>
-            Unknown Infernos
-          </Heading>
+      
+      <Text>
+        These are some of my old projects. They are no longer being worked on in any capacity to the point that they may not work.
+      </Text>
+
+      <Spacer h={4} />
+
+      <SimpleGrid
+        columns={[1,1,2,3]}
+        gap={4}
+      >
+        <ProjectCard
+          imageSrc='./projects/unknown-infernos/banner_1024x512.png'
+          projectPage='/my-projects/unknown-infernos'
+        >
           <Text>
-            Unknown Infernos was one of my original communities from years and years ago. The community is completely dormant and the website is pretty broken at this point as it relies on depreciated APIs. The website was made in PHP using my own nieve framework which handled ajax requests and database queries. It goes to say that I have learnt a lot from this project. 
+            The website for an old gaming community I used to run. Not very pretty but it helped my build on the fundamentals.
           </Text>
-          <Spacer h={2}/>
-          <Text>
-            If I think there is any room for success or I decide I am bored enough then I will remake this project in React/NextJS. This would be to adopt a microservice approach which I think would fit this project much better than fundamentally monolithic foundations.
-          </Text>
-          <Spacer h={2}/>
-          <Text fontSize='sm'>
-            The repository for this is currently closed source but if you are an employer feel free to contact me to request more information about the source code. There are plans to open source this but I first need to make sure no sensitive information would be leaked by doing so.
-          </Text>
-          <Spacer h={4}/>
-          <ButtonGroup>
-            <Link href='http://unknowninfernos.com' target='_blank'>
-              <Button colorScheme='red' variant='outline' size='sm'>Unknown Infernos Website</Button>
-            </Link>
-          </ButtonGroup>
-        </ProjectBox>
-        <ProjectBox>
-          <Text color='green.500'>
-            I am yet to document the rest of my legacy projects but check back another time and I may have added more 👀
-          </Text>
-        </ProjectBox>
-      </VStack>
+        </ProjectCard>
+      </SimpleGrid>
     </Page>
   );
 }

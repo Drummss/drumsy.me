@@ -14,7 +14,7 @@ import { useDisclosure } from '@chakra-ui/hooks';
 
 const NavButtons = () => {
   return (<>
-    <Link href='https://github.com/Drummss' target='_blank'>
+    <Link href='https://github.com/Drummss' rel='noreferrer' target='_blank'>
       <IconButton
         icon={<GithubLogo/>}
         aria-label='Github Link'
