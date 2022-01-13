@@ -1,10 +1,10 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, Theme } from '@chakra-ui/react';
 
 import styles from './styles';
 
 import breakpoints from './foundation/breakpoints';
 
-const overrides = {
+const overrides: Theme & any = {
   styles,
   // breakpoints,
   colors: {
@@ -19,7 +19,10 @@ const overrides = {
       700: '#1a2b66',
       800: '#0d1a40',
       900: '#01091b',
-    }
+    },
+    docker: '#2396ED',
+    nestjs: '#e0234e',
+    react: '#00D8FF',
   },
   components: {
     Heading: {
@@ -31,13 +34,13 @@ const overrides = {
         'page-title': {
           opacity: 1,
           fontWeight: 'normal',
-        }
+        },
       },
       defaultProps: {
-        size: 'lg'
-      }
-    }
-  }
-}
+        size: 'lg',
+      },
+    },
+  },
+};
 
 export default extendTheme(overrides);
