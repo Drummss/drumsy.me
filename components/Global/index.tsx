@@ -1,5 +1,4 @@
 import Navbar from './Navbar';
+import Waves from './Waves';
 
-export {
-  Navbar,
-}
+export { Navbar, Waves };
