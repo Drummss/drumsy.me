@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import {
   Box,
@@ -18,11 +18,12 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
 
 import { Link } from '../Base';
 import { GithubLogo } from '../Icons/GithubIcon';
 import ColorModeButton from '../ColorMode/ColorModeButton';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { LinkProps } from '../Base/Link';
 
 const NavButtons = () => {
   return (
@@ -32,6 +33,29 @@ const NavButtons = () => {
       </Link>
       <ColorModeButton />
     </>
+  );
+};
+
+const NavLink = ({
+  href,
+  children,
+  ...props
+}: PropsWithChildren<LinkProps>) => {
+  return (
+    <Link
+      href={href}
+      {...props}
+      padding={2}
+      borderRadius={5}
+      _hover={{
+        background: useColorModeValue('blackAlpha.100', 'whiteAlpha.100'),
+      }}
+      _focus={{
+        background: useColorModeValue('blackAlpha.100', 'whiteAlpha.100'),
+      }}
+    >
+      {children}
+    </Link>
   );
 };
 
@@ -54,14 +78,14 @@ const Navbar = () => {
           Drumsy.me
         </Heading>
       </Link>
-      <HStack spacing={4} display={['none', 'none', 'flex', 'flex']}>
-        <Link href='/'>Home</Link>
+      <HStack spacing={2} display={['none', 'none', 'flex', 'flex']}>
+        <NavLink href='/'>Home</NavLink>
         <Tooltip hasArrow label='Not Implemented Yet'>
           <Box _focus={{}}>
-            <Link>Blog</Link>
+            <NavLink>Blog</NavLink>
           </Box>
         </Tooltip>
-        <Link href='/my-projects'>My Projects</Link>
+        <NavLink href='/my-projects'>My Projects</NavLink>
         <Spacer />
         <NavButtons />
       </HStack>
@@ -82,17 +106,17 @@ const Navbar = () => {
 
             <DrawerBody>
               <VStack spacing={2} fontSize={22} alignItems='start'>
-                <Link href='/' onClick={onClose}>
+                <NavLink href='/' onClick={onClose}>
                   Home
-                </Link>
+                </NavLink>
                 <Tooltip hasArrow label='Not Implemented Yet' placement='right'>
                   <Box display='inline-block' _focus={{}}>
                     <Link>Blog</Link>
                   </Box>
                 </Tooltip>
-                <Link href='/my-projects' onClick={onClose}>
+                <NavLink href='/my-projects' onClick={onClose}>
                   My Projects
-                </Link>
+                </NavLink>
               </VStack>
             </DrawerBody>
           </DrawerContent>

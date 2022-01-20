@@ -1,13 +1,18 @@
 import NextLink from 'next/link';
 import { PropsWithChildren } from 'react';
-import { Link as ChakraLink, LinkProps } from '@chakra-ui/layout';
+import {
+  Link as ChakraLink,
+  LinkProps as ChakraLinkProps,
+} from '@chakra-ui/layout';
 
-const Link = (props: PropsWithChildren<LinkProps> ) => {
+export type LinkProps = PropsWithChildren<ChakraLinkProps>;
+
+const Link = (props: PropsWithChildren<ChakraLinkProps>) => {
   return (
     <NextLink href={props.href ?? '#'} passHref>
       <ChakraLink
         _focus={{
-          boxShadow: 'none'
+          boxShadow: 'none',
         }}
         {...props}
       >
@@ -15,6 +20,6 @@ const Link = (props: PropsWithChildren<LinkProps> ) => {
       </ChakraLink>
     </NextLink>
   );
-}
+};
 
 export default Link;
