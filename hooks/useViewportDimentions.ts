@@ -13,7 +13,10 @@ const getViewportSize = () => {
 };
 
 export const useViewportDimentions = (): Dimentions => {
-  const [dimentions, setDimentions] = useState<Dimentions>(null);
+  const [dimentions, setDimentions] = useState<Dimentions>({
+    width: 0,
+    height: 0,
+  });
 
   useEffect(() => {
     setDimentions(getViewportSize);
