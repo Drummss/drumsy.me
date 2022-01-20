@@ -1,9 +1,10 @@
+import { useState } from 'react';
+import { useAnimationFrame } from 'framer-motion';
 import { useColorModeValue } from '@chakra-ui/react';
+
 import { useViewportDimentions } from '../../hooks/useViewportDimentions';
 import { Prng } from '../../lib/prng';
 import { lerpHex } from '../../lib/utils';
-
-const generateWave = (pointCount: number) => {};
 
 const Waves = ({
   waveDensity,
@@ -19,14 +20,18 @@ const Waves = ({
   showPointIndexes?: boolean;
 }) => {
   const viewportDimentions = useViewportDimentions();
-  if (!viewportDimentions) return <></>;
+  const [timestamp, setTimestamp] = useState(0);
 
-  const wavesPoints = Array.from({ length: waveCount }, (wave, i) => {
-    const prng = new Prng(42 * (i + 1));
+  useAnimationFrame((timestamp) => {
+    setTimestamp(timestamp);
+  });
+
+  const wavesPoints = Array.from({ length: waveCount }, (wave, waveIndex) => {
+    const prng = new Prng(42 * (waveIndex + 1));
 
     const padding = viewportDimentions.height * 0.2;
     const waveHeight = (viewportDimentions.height - padding) / waveCount;
-    const waveBaseHeight = waveHeight * i + padding * 0.85;
+    const waveBaseHeight = waveHeight * waveIndex + padding * 0.85;
 
     const pointCount = Math.ceil(
       viewportDimentions.width / (1000 / waveDensity)
@@ -36,14 +41,24 @@ const Waves = ({
       pointCount + (pointCount % 2 == 0 ? 0 : 1)
     );
 
-    return Array.from({ length: finalPointCount + 1 }, (a, i) => [
-      (viewportDimentions.width / finalPointCount) * i,
-      waveBaseHeight -
-        prng.nextFloat() *
-          (waveHeight - waveHeight * 0.35) *
-          0.6 *
-          (i % 2 == 0 ? 1 : -1),
-    ]);
+    return Array.from({ length: finalPointCount + 1 }, (a, pointIndex) => {
+      const offsetDirection = pointIndex % 2 == 0 ? 1 : -1;
+      const pointPadding = waveHeight * 0.4;
+      const pointOffset =
+        prng.nextFloat() * (waveHeight - pointPadding) * offsetDirection;
+
+      const pointAngleOffset = (360 / finalPointCount) * pointIndex;
+      const waveAngleOffset = (360 / waveCount) * waveIndex;
+      const animationHeight = waveHeight * 0.12;
+      const timing = timestamp / 2400;
+      const pointAnimationOffset =
+        Math.sin(timing + pointAngleOffset + waveAngleOffset) * animationHeight;
+
+      return [
+        (viewportDimentions.width / finalPointCount) * pointIndex,
+        waveBaseHeight - pointOffset - pointAnimationOffset,
+      ];
+    });
   });
 
   return (
@@ -55,9 +70,16 @@ const Waves = ({
     >
       <rect width='100%' height='100%' fill={startColour} />
       {wavesPoints.map((points, pointsIndex) => {
+        // const colour = startColourInt + t * (endColourInt - startColourInt);
 
         const t = (1 / waveCount) * (pointsIndex + 1);
         const colour = lerpHex(startColour, endColour, t);
+
+        // console.log(
+        //   `Wave #${
+        //     pointsIndex + 1
+        //   } Colour: mu(${t}), start(${startColour}), end(${endColour}), result(${colour})`
+        // );
 
         return (
           <>
