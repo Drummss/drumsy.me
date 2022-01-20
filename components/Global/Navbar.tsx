@@ -56,7 +56,7 @@ const Navbar = () => {
       </Link>
       <HStack spacing={4} display={['none', 'none', 'flex', 'flex']}>
         <Link href='/'>Home</Link>
-        <Tooltip hasArrow label='Not Implmented Yet'>
+        <Tooltip hasArrow label='Not Implemented Yet'>
           <Box _focus={{}}>
             <Link>Blog</Link>
           </Box>
