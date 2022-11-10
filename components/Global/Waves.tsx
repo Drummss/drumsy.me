@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAnimationFrame } from 'framer-motion';
+import { useAnimationFrame, useReducedMotion } from 'framer-motion';
 import { useColorModeValue } from '@chakra-ui/react';
 
 import { useViewportDimentions } from '../../hooks/useViewportDimentions';
@@ -21,8 +21,10 @@ const Waves = ({
 }) => {
   const viewportDimentions = useViewportDimentions();
   const [timestamp, setTimestamp] = useState(0);
+  const reduceMotion = useReducedMotion();
 
   useAnimationFrame((timestamp) => {
+    if (reduceMotion) return;
     setTimestamp(timestamp);
   });
 
