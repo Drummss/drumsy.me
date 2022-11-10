@@ -3,15 +3,7 @@ import NextLink from 'next/link';
 
 import { Button, ButtonGroup } from '@chakra-ui/button';
 import { useColorModeValue } from '@chakra-ui/color-mode';
-import {
-  Box,
-  Flex,
-  Heading,
-  HStack,
-  Link,
-  Spacer,
-  Text,
-} from '@chakra-ui/layout';
+import { Box, Flex, Heading, HStack, Spacer, Text } from '@chakra-ui/layout';
 import { AspectRatio, Image, SimpleGrid, Skeleton } from '@chakra-ui/react';
 
 import DefaultLayout from '../../layouts/DefaultLayout';
@@ -27,6 +19,7 @@ import {
   TechIconTailwind,
   TechIconTypeScript,
 } from '../../components/Technologies';
+import { Link } from '../../components/Base';
 
 type ProjectCardProps = {
   children: React.ReactNode;
