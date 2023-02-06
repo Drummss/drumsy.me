@@ -9,7 +9,7 @@ export type LinkProps = PropsWithChildren<ChakraLinkProps>;
 
 const Link = (props: PropsWithChildren<ChakraLinkProps>) => {
   return (
-    <NextLink href={props.href ?? '#'} passHref>
+    <NextLink href={props.href ?? '#'} passHref legacyBehavior>
       <ChakraLink
         _focus={{
           boxShadow: 'none',

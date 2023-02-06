@@ -84,7 +84,7 @@ const Waves = ({
         // );
 
         return (
-          <>
+          <g key={colour}>
             <polygon
               fill={colour}
               points={`${points.map((e) => e.join(',')).join(' ')} ${
@@ -105,7 +105,7 @@ const Waves = ({
                   {i + 1}
                 </text>
               ))}
-          </>
+          </g>
         );
       })}
     </svg>
